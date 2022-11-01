@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Truco!</title>
+</head>
+<body>
+    <article id="startScreen">
+        <h2>Tela de entrada do jogo</h2>
+        <p>Se der: link de instruções e seção "Configurar Jogo"</p>
+        <section id="startMenu">
+            <div>Configurar jogo</div>
+            <div><input id="inputName" type="text" placeholder="Insira seu nome"></div>
+            <div>
+                <input type="radio" id="selectMineiro" name="gameType" value="1" checked>
+                <label for="selectMineiro">Truco Mineiro</label>
+                
+                <input type="radio" id="selectPaulista" name="gameType" value="1">
+                <label for="selectPaulista">Truco Paulista</label>
+            </div>
+            <div>
+                <input type="radio" id="modoIndividual" name="gameMode" value="1" checked>
+                <label for="modoIndividual">Individual</label>
+                
+                <input type="radio" id="modoDuplas" name="gameMode" value="1">
+                <label for="modoDuplas">Duplas</label>
+            </div>
+            <div>
+                <input type="radio" id="baralhoLimpo" name="gameDeck" value="1" checked>
+                <label for="baralhoLimpo">Baralho Limpo</label>
+                
+                <input type="radio" id="baralhoSujo" name="gameDeck" value="1">
+                <label for="baralhoSujo">Baralho Sujo</label>
+            </div>
+            <div>
+                <button id="btnJogar">Jogar</button>
+            </div>
+        </section>
+    </article>
+    
+    <article id="gameScreen">        
+        <div id="div1" class="tentos-adversario">div1</div>
+        <div id="div2" class="player-area">div2</div>
+        <div id="div3" class="info-jogo">div3</div>
+        <div id="div4" class="player-area">div4</div>
+        <div id="div5" class="mesa-jogo">div5</div>
+        <div id="div6"class="player-area">div6</div>
+        <div id="div7">div7</div>
+        <div id="div8" class="player-area">div8</div>
+        <div id="div9" class="tentos-jogador">div9</div>
+            
+        
+
+
+    </article>
+
+    
+
+    <script src="./js/logic.js"></script>
+    <script src="./js/dom.js"></script>
+</body>
+</html>
