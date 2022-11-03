@@ -4,56 +4,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/style.css">
     <title>Truco!</title>
 </head>
 <body>
     <article id="startScreen">
-        <h2>Tela de entrada do jogo</h2>
+        <h1>Jogo de Truco</h1>
         <p>Se der: fazer página de instruções</p>
-        <section id="startMenu">
-            <div>Configurar jogo</div>
-            <div><input id="inputName" type="text" placeholder="Insira seu nome"></div>
-            <div>
+        <form>
+            <label>Configurar jogo</label>
+            <input id="inputName" type="text" placeholder="Insira seu nome">
+            
+            <section id="startMenu">
+            <div class="setupMenu">                
                 <input type="radio" id="selectMineiro" name="gameType" value="1" checked>
                 <label for="selectMineiro">Truco Mineiro</label>
-                
-                <input type="radio" id="selectPaulista" name="gameType" value="1">
-                <label for="selectPaulista">Truco Paulista</label>
+                <br>
+                <input hidden type="radio" id="selectPaulista" name="gameType" value="1">
+                <label hidden for="selectPaulista">Truco Paulista</label>
             </div>
-            <div>
+            
+            <div class="setupMenu">
                 <input type="radio" id="modoIndividual" name="gameMode" value="1" checked>
                 <label for="modoIndividual">Individual</label>
-                
-                <input type="radio" id="modoDuplas" name="gameMode" value="1">
-                <label for="modoDuplas">Duplas</label>
+                <br>
+                <input hidden type="radio" id="modoDuplas" name="gameMode" value="1">
+                <label hidden for="modoDuplas">Duplas</label>
             </div>
-            <div>
+                
+            <div class="setupMenu">
                 <input type="radio" id="baralhoLimpo" name="gameDeck" value="1" checked>
                 <label for="baralhoLimpo">Baralho Limpo</label>
-                
-                <input type="radio" id="baralhoSujo" name="gameDeck" value="1">
-                <label for="baralhoSujo">Baralho Sujo</label>
-            </div>
-            <div>
-                <button id="btnJogar">Jogar</button>
+                <br>
+                <input hidden type="radio" id="baralhoSujo" name="gameDeck" value="1">
+                <label hidden for="baralhoSujo">Baralho Sujo</label>
             </div>
         </section>
+            
+            <button id="btnJogar">Jogar</button>
+        </form>
     </article>
     
-    <article id="gameScreen">        
-        <div id="div1" class="tentos-adversario">div1</div>
-        <div id="div2" class="player-area">div2</div>
-        <div id="div3" class="info-jogo">div3</div>
-        <div id="div4" class="player-area">div4</div>
-        <div id="div5" class="mesa-jogo">div5</div>
-        <div id="div6"class="player-area">div6</div>
-        <div id="div7">div7</div>
-        <div id="div8" class="player-area">div8</div>
-        <div id="div9" class="tentos-jogador">div9</div>
-            
+    <article id="gameScreen" class="gameBoard">
         
-
+            <div id="div1" class="tentos-adversario">div1</div>
+            <div id="div2" class="player-area">div2</div>
+            <div id="div3" class="info-jogo">div3</div>
+            <div id="div4" class="player-area">div4</div>
+            <div id="div5" class="mesa-jogo">div5</div>
+            <div id="div6" class="player-area">div6</div>
+            <div id="div7">div7</div>
+            <div id="div8" class="player-area">div8</div>
+            <div id="div9" class="tentos-jogador">div9</div>
 
     </article>
 

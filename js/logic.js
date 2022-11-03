@@ -59,35 +59,45 @@ class JogoTruco {
             {id: 54, face: "joker", naipe: "red", color: "r", fullName: "Coringa Vermelho", valueMG: 14, valueSP: 14, trucoSujo: 0, trucoLimpo: 0, src: "./img/fulldeck/red_joker.svg"}
         ]
 
-        //players hand
-        this.player1Hand = [];        
-        this.player2Hand = [];        
-        this.player3Hand = [];        
-        this.player4Hand = [];
-        //cartas da mesa
+        //players hand        
+        this.player1Hand = [{playerId: 1, playerTeam: 1}, {cards:[]}]; //this.player1Hand[1].cards.push(qualquer)
+        this.player2Hand = [{playerId: 2, playerTeam: 2}, {cards:[]}];
+        this.player3Hand = [{playerId: 3, playerTeam: 1}, {cards:[]}];
+        this.player4Hand = [{playerId: 4, playerTeam: 2}, {cards:[]}];
         this.gameStack = [];
-
+        this.playersSet= [];
+        
         //parâmetros básicos de jogo
-        const timeoutxshort = 500;
-        const timeoutshort = 1000;
-        const timeoutstandart = 2000;
-        const timeoutlong = 5000;
-        const timeoutxlong = 10000;
+        this.time500 = 500;        
+
+        //variáveis do jogo
+        this.ownScore;
+        this.adversaryScore;
+        this.selectedDeck;
+        this.roundCount
+
+
 
     }
 
-    //create the selected type (limpo 28 cards) (sujo 40 cards) of deck
+
+
+
+    
+
+    //create the selected type (limpo 28 cards) (sujo 40 cards) of deck    
     buildDeck() {
         const chkLimpo = document.getElementById("baralhoLimpo").checked
         const chkSujo = document.getElementById("baralhoSujo").checked
-
-        //create the deck limpo, 28 cartas
-        if (chkLimpo) {
-            let selectedDeck = baseDeck.filter(function(obj) { return  obj.trucoLimpo == 1})
         
-        //create the deck sujo, 40 cartas
+
+        //create deck limpo, 28 cartas
+        if (chkLimpo) {
+            this.selectedDeck = this.baseDeck.filter(function(obj) { return  obj.trucoLimpo == 1})
+        
+        //create deck sujo, 40 cartas
         } else if (chkSujo) {
-            let selectedDeck = baseDeck.filter(function(obj) { return  obj.trucoSujo == 1})
+            this.selectedDeck = this.baseDeck.filter(function(obj) { return  obj.trucoSujo == 1})
         
         //flow control | this option shall not be triggered
         } else {
@@ -97,51 +107,106 @@ class JogoTruco {
 
     //shuffle the created selected deck
     shuffleDeck() {
-        let shuffledDeck = shuffle(selectedDeck);
-
+        
         function shuffle(arr) {
             let i = arr.length, j, temp;
             while(--i > 0){
-              j = Math.floor(Math.random()*(i+1));
-              temp = arr[j];
-              arr[j] = arr[i];
-              arr[i] = temp;
+                j = Math.floor(Math.random()*(i+1));
+                temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
             }
             return arr
         }
+
+        return shuffle(this.selectedDeck);
     }
 
     //sort cards to players | 1vs1 or 2vs2
     startHand() {
+        //colocar no início de jogo
         const chkIndividual = document.getElementById("modoIndividual").checked;
         const chkDuplas = document.getElementById("modoDuplas").checked;
+        this.roundCount = 1
+        let shuffledDeck = this.shuffleDeck()
 
         //start hand with 1 vs 1
         if (chkIndividual) {
-            this.player1Hand = shuffledDeck.splice(0, 3);
-            this.player2Hand = shuffledDeck.splice(0, 3);
+            this.player1Hand[1].cards.push(shuffledDeck.splice(0, 3));            
+            
+            this.player1Hand[1].cards[0].forEach((card) => {
+                let faceCard = document.createElement("img") // <img src="" />
+                faceCard.src = card.src // <img src="./img/fulldeck/ace_of_diamonds.svg" />
+                faceCard.className = "playerCard";
+                faceCard.id = card.id;
+                faceCard.addEventListener("click", match.playCard);
+                                                         
+                
+                
+                //frontImg.classList.add("hide") // <img src="img" class="hide" />
+                //frontImg.classList.add("frontCard") // <img src="img" class="hide frontCard" />    
+                    
+                div8.appendChild(faceCard)                
+            })
+
+            this.player2Hand[1].cards.push(shuffledDeck.splice(0, 3));
+            
+            this.player2Hand[1].cards[0].forEach((card) => {
+                let faceCard = document.createElement("img"); // <img src="" />
+                faceCard.src = card.src; // <img src="./img/fulldeck/ace_of_diamonds.svg" />                
+                
+                //frontImg.classList.add("hide") // <img src="img" class="hide" />
+                //frontImg.classList.add("frontCard") // <img src="img" class="hide frontCard" />    
+                    
+                div2.appendChild(faceCard)                
+            })
+            
 
         //start hand with  2 vs 2
         } else if (chkDuplas) {
-            this.player1Hand = shuffledDeck.splice(0, 3);
-            this.player2Hand = shuffledDeck.splice(0, 3);
-            this.player3Hand = shuffledDeck.splice(0, 3);
-            this.player4Hand = shuffledDeck.splice(0, 3);
+            this.player1Hand[1].cards = shuffledDeck.splice(0, 3);
+            this.player2Hand[1].cards = shuffledDeck.splice(0, 3);
+            this.player3Hand[1].cards = shuffledDeck.splice(0, 3);
+            this.player4Hand[1].cards = shuffledDeck.splice(0, 3);
 
         //flow control | this option shall not be triggered
         } else {
             console.log("Modo de jogo não selecionado. Quer jogar sozinho?")
         }
+        
+        this.startRound()
+
     }
 
     //begins the round | 1st game round -> random player
     startRound() {
+        if (this.roundCount === 1){
+            switch(parseInt(Math.random() * 2 + 1)){
+                case 1:
+                    this.sendMessage("Você começa!");
+                    this.humanPlayerTurn()
+                    this.cpuPlayerTurn();
+                    this.checkRound();
+                    break;
+                case 2:
+                    this.sendMessage("Adversário começa.");                   
+                    this.cpuPlayerTurn();
+                    //this.humanPlayerTurn();
+                    this.checkRound();
+                    break;
+            }
+        }        
     }
 
 
     //human player select a card 
     humanPlayerTurn() {
-    }
+        
+        setInterval(() => {
+            this.sendMessage("Você deve Jogar!")
+        }, this.time500 * 20);
+
+    }   
 
     //CPU player select a card 
     cpuPlayerTurn() {                
@@ -149,7 +214,9 @@ class JogoTruco {
 
     //CPU game strategy
     cpuStrategy() {
+        //joga maior carta
     }
+
 
     //check the biggest card on table and ends the round
     checkRound() {        
@@ -165,7 +232,26 @@ class JogoTruco {
 
     //send a message to player screen
     sendMessage(message) {
-        console.log(message)
+        div3.innerText = message;
+    }
+
+    playCard() {
+
+        const cardId = Number(this.id);
+        const theCard = document.getElementById(this.id);
+        const cardIndex = this.player1Hand[1].cards[0].indexOf(cardId);
+        const cardIssued = this.player1Hand[1].cards[0][cardIndex]
+        
+        this.gameStack.push(cardIssued);
+        this.player1Hand[1].cards[0].splice(cardIndex, 1);
+        theCard.remove();
+
+        let faceCard = document.createElement("img") // <img src="" />
+        faceCard.className = "stackCard";
+        faceCard.src = card.src // <img src="./img/fulldeck/ace_of_diamonds.svg" />
+        faceCard.id = card.id;
+        div5.appendChild(faceCard) 
+
     }
 
 
