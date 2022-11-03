@@ -66,11 +66,7 @@ class JogoTruco {
         this.player4Hand = [{playerId: 4, playerTeam: 2}, {cards:[]}];
         this.gameStack = [];
         this.playersSet= [];
-        
-        this.player1Cards = this.player1Hand[0].cards[0];
-        this.player2Cards = this.player2Hand[0].cards[0];
-        this.player3Cards = this.player3Hand[0].cards[0];
-        this.player4Cards = this.player4Hand[0].cards[0];
+                
 
 
         //parâmetros básicos de jogo
