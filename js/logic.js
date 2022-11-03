@@ -67,6 +67,12 @@ class JogoTruco {
         this.gameStack = [];
         this.playersSet= [];
         
+        this.player1Cards = this.player1Hand[0].cards[0];
+        this.player2Cards = this.player2Hand[0].cards[0];
+        this.player3Cards = this.player3Hand[0].cards[0];
+        this.player4Cards = this.player4Hand[0].cards[0];
+
+
         //parâmetros básicos de jogo
         this.time500 = 500;        
 
@@ -75,6 +81,8 @@ class JogoTruco {
         this.adversaryScore;
         this.selectedDeck;
         this.roundCount
+
+        
 
 
 
@@ -132,34 +140,32 @@ class JogoTruco {
 
         //start hand with 1 vs 1
         if (chkIndividual) {
-            this.player1Hand[1].cards.push(shuffledDeck.splice(0, 3));            
+            this.player1Hand[1].cards.push(shuffledDeck.splice(0, 3));
             
             this.player1Hand[1].cards[0].forEach((card) => {
                 let faceCard = document.createElement("img") // <img src="" />
                 faceCard.src = card.src // <img src="./img/fulldeck/ace_of_diamonds.svg" />
-                faceCard.className = "playerCard";
+                
+                faceCard.className = "playerCard"; // selecionar esses elementos para o eventListener
                 faceCard.id = card.id;
-                faceCard.addEventListener("click", match.playCard);
-                                                         
-                
                 
                 //frontImg.classList.add("hide") // <img src="img" class="hide" />
                 //frontImg.classList.add("frontCard") // <img src="img" class="hide frontCard" />    
                     
-                div8.appendChild(faceCard)                
-            })
+                div8.appendChild(faceCard)
+                })
 
-            this.player2Hand[1].cards.push(shuffledDeck.splice(0, 3));
-            
-            this.player2Hand[1].cards[0].forEach((card) => {
-                let faceCard = document.createElement("img"); // <img src="" />
-                faceCard.src = card.src; // <img src="./img/fulldeck/ace_of_diamonds.svg" />                
+                this.player2Hand[1].cards.push(shuffledDeck.splice(0, 3));
                 
-                //frontImg.classList.add("hide") // <img src="img" class="hide" />
-                //frontImg.classList.add("frontCard") // <img src="img" class="hide frontCard" />    
+                this.player2Hand[1].cards[0].forEach((card) => {
+                    let faceCard = document.createElement("img"); // <img src="" />
+                    faceCard.src = card.src; // <img src="./img/fulldeck/ace_of_diamonds.svg" />                
                     
-                div2.appendChild(faceCard)                
-            })
+                    //frontImg.classList.add("hide") // <img src="img" class="hide" />
+                    //frontImg.classList.add("frontCard") // <img src="img" class="hide frontCard" />    
+                        
+                    div2.appendChild(faceCard)                
+                })
             
 
         //start hand with  2 vs 2
@@ -173,13 +179,15 @@ class JogoTruco {
         } else {
             console.log("Modo de jogo não selecionado. Quer jogar sozinho?")
         }
-        
-        this.startRound()
-
-    }
+                                                                              
+            this.startRound()
+    }            
 
     //begins the round | 1st game round -> random player
     startRound() {
+
+        interativeCards();
+
         if (this.roundCount === 1){
             switch(parseInt(Math.random() * 2 + 1)){
                 case 1:
@@ -202,14 +210,13 @@ class JogoTruco {
     //human player select a card 
     humanPlayerTurn() {
         
-        setInterval(() => {
-            this.sendMessage("Você deve Jogar!")
-        }, this.time500 * 20);
+        
 
     }   
 
     //CPU player select a card 
-    cpuPlayerTurn() {                
+    cpuPlayerTurn() {   
+
     }
 
     //CPU game strategy
@@ -235,24 +242,30 @@ class JogoTruco {
         div3.innerText = message;
     }
 
-    playCard() {
 
-        const cardId = Number(this.id);
-        const theCard = document.getElementById(this.id);
-        const cardIndex = this.player1Hand[1].cards[0].indexOf(cardId);
-        const cardIssued = this.player1Hand[1].cards[0][cardIndex]
+    //transferi esse método para dentro da callback do eventListener
+
+    // playCard() {
+    //     const player1Cards = this.player1Hand[1].cards[0];
+    //     console.log("this.player1Hand[0].cards[0]");
+    //     console.log(player1Cards);
         
-        this.gameStack.push(cardIssued);
-        this.player1Hand[1].cards[0].splice(cardIndex, 1);
-        theCard.remove();
+    //     const cardId = Number(this.id);
+    //     const theCard = document.getElementById(this.id);
+    //     const cardIndex = this.player1Hand[1].cards[0].indexOf(cardId);
+    //     const cardIssued = this.player1Hand[1].cards[0][cardIndex]
+        
+    //     this.gameStack.push(cardIssued);
+    //     this.player1Hand[1].cards[0].splice(cardIndex, 1);
+    //     theCard.remove();
 
-        let faceCard = document.createElement("img") // <img src="" />
-        faceCard.className = "stackCard";
-        faceCard.src = card.src // <img src="./img/fulldeck/ace_of_diamonds.svg" />
-        faceCard.id = card.id;
-        div5.appendChild(faceCard) 
+    //     let faceCard = document.createElement("img") // <img src="" />
+    //     faceCard.className = "stackCard";
+    //     faceCard.src = card.src // <img src="./img/fulldeck/ace_of_diamonds.svg" />
+    //     faceCard.id = card.id;
+    //     div5.appendChild(faceCard) 
 
-    }
+    // }
 
 
 

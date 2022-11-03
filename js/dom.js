@@ -32,9 +32,45 @@ btnJogar.addEventListener("click", (event) => {
 
     match.buildDeck();
     match.startHand();
-
     
+})
+    
+
+
+
+function interativeCards() {
+    
+    const interativeCards = document.querySelectorAll(".playerCard")
+    console.log(interativeCards)
+    
+    interativeCards.forEach((interative) => {
+        interative.addEventListener("click", (event) => {
+            const player1Cards = match.player1Hand[1].cards[0];
+            console.log("match.player1Hand[0].cards[0]");
+            console.log(player1Cards);
+            
+            const cardId = Number(event.currentTarget.id);
+            const theCard = document.getElementById(cardId);
+            const cardIndex = match.player1Hand[1].cards[0].findIndex(el => el.id == cardId);
+            const cardIssued = match.player1Hand[1].cards[0][cardIndex]
+            
+            match.gameStack.push(cardIssued);
+            match.player1Hand[1].cards[0].splice(cardIndex, 1);
+            
+            div5.appendChild(theCard)
+            match.sendMessage(`Você jogou um ${cardIssued.fullName}`)
+            
+            
+            // let faceCard = document.createElement("img") // <img src="" />
+            // faceCard.className = "stackCard";
+            // faceCard.src = card.src // <img src="./img/fulldeck/ace_of_diamonds.svg" />
+            // faceCard.id = card.id;
+            // theCard.remove();
+            
+        });
+    });
+}
+     
     
 
     // funções de início de jogo -setDeck -sortDeck -setPlayers -setHand -dealCards
-})
